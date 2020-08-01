@@ -1,0 +1,43 @@
+@foreach($fields as  $name => $type)
+    <?php
+    $inputs = ['text', 'password', 'email'];
+    $title = '';
+
+    if($name ?? false)
+        foreach (explode('_', $name) as $value){
+            $title = $title . ' ' . ucfirst($value);
+        }
+    ?>
+
+    @if(array_search($type, $inputs) !== false)
+        <div class="form-group">
+            <label for="{{$name}}" class='control-label'>{{$title}}</label>
+            <input  type="{{$type}}"
+                    name="{{$name}}"
+                    id="{{$name}}"
+                    class="form-control"
+                    @if($type !== 'password')
+                    value="{{isset($item) ? $item->$name : ''}}"
+                @endif
+            >
+        </div>
+    @endif
+    @if($type === 'date')
+        <div class="form-group">
+            <label for="{{$name}}" class='control-label'>{{$title}}</label>
+            <input type="{{$type}}"
+                   name="{{$name}}"
+                   id="{{$name}}"
+                   class="form-control"
+                   value="{{isset($item) && !is_null($item->$name)
+                                ? $item->$name->format('Y-m-d') : ''}}">
+        </div>
+    @endif
+    @if($type === 'submit')
+        <div class="form-group" align="center">
+            <button class="btn btn-primary" type="submit">
+                {{isset($item) ? 'Update' : 'Create'}}
+            </button>
+        </div>
+    @endif
+@endforeach

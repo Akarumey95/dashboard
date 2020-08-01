@@ -1,0 +1,42 @@
+<?php
+
+namespace {{namespace}}Http\Controllers\Application\Dashboard\Controllers\User;
+
+use App\Http\Requests\CreateUserRequest;
+use App\Http\Requests\UpdateUserRequest;
+use Dashboard\Controllers\DashboardController;
+use Illuminate\Http\Request;
+
+class UserController extends DashboardController
+{
+    protected static $config = 'user';
+
+    public function store(Request $request)
+    {
+        $request->validate((new CreateUserRequest())->rules());
+
+        static::$model::create($request->except('password') + [
+            'password' => bcrypt($request->get('password')),
+        ]);
+        return redirect(static::$homePage)
+            ->with('flash_message', static::$modelName . ' success added!');
+    }
+
+    public function update(Request $request, int $id)
+    {
+        $item = static::$model::findOrFail($id);
+        $request->validate((new UpdateUserRequest())->rules($item));
+
+        $data = array_filter($request->except('password'),
+            function ($item){
+                return !is_null($item);
+            });
+
+        if(!is_null($request->get('password')))
+            $data['password'] = bcrypt($request->get('password'));
+
+        $item->update($data);
+        return redirect(static::$homePage)
+            ->with('flash_message', static::$modelName . ' success updated!');
+    }
+}

@@ -1,0 +1,42 @@
+@extends('dashboard.layouts.app')
+
+@section('content')
+    <div class="card-header">{{$modelName}}s</div>
+
+    <div class="card-body">
+        @if (session('status'))
+            <div class="alert alert-success" role="alert">
+                {{ session('status') }}
+            </div>
+        @endif
+
+        @include('dashboard.components.actions', ['use'  => ['new'], 'link' => $homePage])
+        <br>
+        <table width="100%" class="table table-borderless">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach($items as $item)
+                <tr>
+                    <td>{{$item->id}}</td>
+                    <td style="min-width: 125px;">
+                        @include('dashboard.components.actions', [
+                                    'use'  => ['show', 'edit', 'delete'],
+                                    'link' => $homePage,
+                                    'item' => $item,
+                                ])
+                    </td>
+                </tr>
+            @endforeach
+            </tbody>
+        </table>
+
+        <div class="d-flex justify-content-center">
+            {{$items->appends(request()->input())->links()}}
+        </div>
+    </div>
+@endsection

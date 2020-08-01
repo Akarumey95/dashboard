@@ -1,0 +1,5 @@
+<div class="dashboard-element">
+    <h3>{{ucfirst($title)}}</h3>
+
+    <span class="dashboard-data">{{$item}}</span>
+</div>

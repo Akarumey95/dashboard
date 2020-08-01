@@ -1,0 +1,13 @@
+{
+    "name": "akarumey95/dashboard",
+    "description": "This package for laravel admin panel",
+    "type": "library",
+    "license": "MIT",
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Akarumey95\\Dashboard\\": "src/Dashboard"
+        }
+    }
+}

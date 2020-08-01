@@ -1,0 +1,39 @@
+<?php
+
+return [
+
+    'namespace' => 'Application\Dashboard\Controllers',
+
+    'controllers' => [
+        'user'     =>  [
+            'view'          => 'dashboard.views.user',
+            'homePage'      => '/users',
+            'modelName'     => 'User',
+            'model'         => \App\User::class,
+            'controller'     => 'User\UserController',
+            'paginateBy'    => 25,
+            'router'        => [
+                'index',
+                'store',
+                'show',
+                'update',
+                'destroy'
+            ],
+            'filters'       => [
+
+            ],
+        ],
+    ],
+
+    'menu' => [
+        [
+            'title' => 'Main',
+            'submenu' => [
+                [
+                    'title' => 'Users',
+                    'url' => '/users'
+                ],
+            ]
+        ],
+    ],
+];

@@ -1,0 +1,32 @@
+@extends('dashboard.layouts.app')
+
+@section('content')
+    <div class="card-header">{{$modelName}}</div>
+    <div class="card-body">
+        @include('dashboard.components.actions', ['use'  => ['back'], 'link' => $homePage])
+        <br>
+        @if (session('status'))
+            <div class="alert alert-success" role="alert">
+                {{ session('status') }}
+            </div>
+        @endif
+        @include('dashboard.components.form-errors', ['fields' => $fillable])
+
+        <form action="{{isset($item) ? url($homePage. '/' . $item->id) : url($homePage)}}" method="post">
+            @method('POST')
+            @csrf
+
+            @include('dashboard.components.form-fields', [
+                'item'  => isset($item) ? $item : null,
+                'fields'=> [
+                    'name'                  => 'text',
+                    'email'                 => 'email',
+                    'password'              => 'password',
+                    'password_confirmation' => 'password',
+                    'submit'                => 'submit',
+                ]
+            ])
+
+        </form>
+    </div>
+@endsection

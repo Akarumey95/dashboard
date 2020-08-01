@@ -1,0 +1,7 @@
+@if ($errors->default->hasAny($fields))
+    <div class="alert alert-danger" role="alert">
+        @foreach($errors->default->getMessages() as $message)
+            {{$message[0]}} <br>
+        @endforeach
+    </div>
+@endif

@@ -1,0 +1,35 @@
+<div class="col-md-2">
+    @if(Dashboard::getMenu())
+        <div class="card">
+            <div class="card-header">
+                Sidebar
+            </div>
+
+            <div class="card-body">
+                <ul class="nav flex-column" role="tablist">
+                    @foreach(Dashboard::getMenu() as $menu)
+                        <li class="nav-item" role="presentation">
+                            @if($menu['submenu'])
+
+                                <h5 class="nav-link">
+                                    {{ $menu['title'] }}
+                                </h5>
+                                @foreach($menu['submenu'] as $menuItem)
+                                    <a class="nav-link" href="{{ url($menuItem['url']) }}">
+                                        {{ $menuItem['title'] }}
+                                    </a>
+                                @endforeach
+                                <hr>
+                            @else
+                                <a class="nav-link" href="{{ url($menu['url']) }}">
+                                    {{ $menu['title'] }}
+                                </a>
+                            @endif
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
+        </div>
+        <br/>
+    @endif
+</div>

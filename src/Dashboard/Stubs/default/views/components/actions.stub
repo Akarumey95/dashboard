@@ -1,0 +1,71 @@
+<div class="action__component__wrapper">
+    @if(array_search('new', $use) !== false)
+        <a href="{{ url($link .'/new') }}" class="btn btn-success btn-sm" title="Create New">
+            <i class="fas fa-plus"></i> Create New
+        </a>
+    @endif
+    @if(array_search('template', $use) !== false)
+        <a href="{{ url($link .'/template') }}"
+           class="btn btn-outline-primary btn-sm" title="Get Template">
+                Get Template
+        </a>
+    @endif
+    @if(array_search('back', $use) !== false)
+        <a href="{{ url($link) }}" title="Back">
+            <button class="btn btn-warning btn-sm"><i class="fas fa-arrow-left"></i> Back</button>
+        </a>
+    @endif
+    @if(array_search('show', $use) !== false)
+        <a href="{{ url($link . '/' . $item->id) }}" title="View">
+            <button class="btn btn-info btn-sm">
+                <i class="fas fa-eye"></i>
+            </button>
+        </a>
+    @endif
+    @if(array_search('edit', $use) !== false)
+        <a href="{{ url($link . '/' . $item->id . '/edit') }}" title="Edit">
+            <button class="btn btn-primary btn-sm">
+                <i class="fas fa-edit"></i>
+            </button>
+        </a>
+    @endif
+    @if(array_search('delete', $use) !== false)
+        <form action="{{$link . '/' . $item->id}}" method='post' style='display:inline'>
+            @method('DELETE')
+            @csrf
+            <button
+                type="submit" class='btn btn-danger btn-sm' title='Delete'
+                onclick='return confirm("Confirm delete?")'>
+                <i class="fas fa-trash"></i>
+            </button>
+        </form>
+    @endif
+</div>
+
+<div class="action__component__wrapper">
+    @if(array_search('lock', $use) !== false)
+        @if($item->active)
+        <form action="{{$link . '/' . $item->id}}" method='post' style='display:inline'>
+            @method('PUT')
+            @csrf
+            <input type="hidden" name="account_status" value="blocked">
+            <button
+                type="submit" class='btn btn-danger btn-sm' title='Block'
+                onclick='return confirm("Confirm block?")'>
+                <i class="fas fa-ban"></i>
+            </button>
+        </form>
+        @else
+        <form action="{{$link . '/' . $item->id}}" method='post' style='display:inline'>
+            @method('PUT')
+            @csrf
+            <input type="hidden" name="account_status" value="active">
+            <button
+                type="submit" class='btn btn-success btn-sm' title='UnBlock'
+                onclick='return confirm("Confirm block?")'>
+                <i class="fas fa-circle"></i>
+            </button>
+        </form>
+        @endif
+    @endif
+</div>

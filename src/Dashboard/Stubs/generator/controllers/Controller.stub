@@ -1,0 +1,13 @@
+<?php
+
+namespace {{namespace}}Http\Controllers\Application\Dashboard\Controllers\{{controller_name}};
+
+use App\Http\Requests\CreateUserRequest;
+use App\Http\Requests\UpdateUserRequest;
+use Dashboard\Controllers\DashboardController;
+use Illuminate\Http\Request;
+
+class {{controller_name}}Controller extends DashboardController
+{
+    protected static $config = '{{config_name}}';
+}

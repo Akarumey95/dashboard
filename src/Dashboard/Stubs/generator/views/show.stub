@@ -1,0 +1,28 @@
+@extends('dashboard.layouts.app')
+
+@section('content')
+    <div class="card-header">{{$modelName}}</div>
+
+    <div class="card-body">
+        @if (session('status'))
+            <div class="alert alert-success" role="alert">
+                {{ session('status') }}
+            </div>
+        @endif
+
+        @include('dashboard.components.actions', [
+                'use'  => ['back', 'edit', 'delete'],
+                'link' => $homePage,
+                'item' => $item,
+                ])
+        <br>
+        <table width="100%" class="table table-borderless">
+            <tbody>
+            <tr>
+                <td>ID</td>
+                <td>{{$item->id}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+@endsection

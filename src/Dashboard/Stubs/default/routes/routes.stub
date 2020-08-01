@@ -1,0 +1,53 @@
+Route::group([
+    'middleware' => 'auth',
+    'namespace' => Dashboard::getNamespace()],
+    function (){
+        foreach (Dashboard::getControllers() as $controller){
+            if(in_array('index', $controller['router'])){
+                Route::get(
+                    $controller['homePage'],
+                    $controller['controller'] . '@index'
+                );
+            }
+
+            if(in_array('store', $controller['router'])){
+                Route::get(
+                    $controller['homePage'] . '/new',
+                    $controller['controller'] . '@create'
+                );
+
+                Route::post(
+                    $controller['homePage'],
+                    $controller['controller'] . '@store'
+                );
+            }
+
+            if(in_array('show', $controller['router'])){
+                Route::get(
+                    $controller['homePage'] . '/{id}',
+                    $controller['controller'] . '@show'
+                );
+            }
+
+            if(in_array('update', $controller['router'])){
+                Route::get(
+                    $controller['homePage'] . '/{id}/edit',
+                    $controller['controller'] . '@edit'
+                );
+
+                Route::post(
+                    $controller['homePage'] . '/{id}',
+                    $controller['controller'] . '@update'
+                );
+            }
+
+            if(in_array('destroy', $controller['router'])){
+                Route::delete(
+                    $controller['homePage'] . '/{id}',
+                    $controller['controller'] . '@destroy'
+                );
+            }
+
+        }
+    }
+);
