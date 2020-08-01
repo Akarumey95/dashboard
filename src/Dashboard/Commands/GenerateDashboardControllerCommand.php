@@ -126,7 +126,7 @@ class GenerateDashboardControllerCommand extends Command
         file_put_contents(
             config_path('dashboard.php'),
             str_replace(
-                ['<pre>', '</pre>'], '',
+                ['<pre>', '</pre>', 'array (', ')'], ['', '', '[', ']'],
                 '<pre><?php' . PHP_EOL . PHP_EOL . 'return ' . var_export($config, 1) . ';?></pre>'
             )
         );
