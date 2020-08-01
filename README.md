@@ -1,4 +1,7 @@
-## Dashboard Installation
+## Dashboard
+
+![Stable version](https://img.shields.io/badge/version-v1.0.2-green)](https://packagist.org/packages/akarumey95/dashboard)
+
 
 1)For install `composer require akarumey95/dashboard`
 
