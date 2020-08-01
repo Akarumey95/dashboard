@@ -4,7 +4,7 @@ namespace {{namespace}}Http\Controllers\Application\Dashboard\Controllers\{{cont
 
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\UpdateUserRequest;
-use Dashboard\Controllers\DashboardController;
+use Akarumey95\Dashboard\Controllers\DashboardController;
 use Illuminate\Http\Request;
 
 class {{controller_name}}Controller extends DashboardController
