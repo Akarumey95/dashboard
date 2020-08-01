@@ -26,7 +26,7 @@ php artisan dashboard:install
 
 Generate Controller
 ```shell script
-php artisan dashboard:controller {Path to Model form App\\}
+php artisan dashboard:controller {Path to Model after App\\}
 ```
 Generate Views
 ```shell script
@@ -34,5 +34,5 @@ php artisan dashboard:view {ModelName}
 ```
 Or Generate Controller with views
 ```shell script
-php artisan dashboard:controller {Path to Model form App\\} --view
+php artisan dashboard:controller {Path to Model after App\\} --view
 ```
