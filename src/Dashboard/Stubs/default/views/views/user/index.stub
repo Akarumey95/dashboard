@@ -15,10 +15,19 @@
         <table width="100%" class="table table-borderless">
             <thead>
             <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Actions</th>
+                @include('dashboard.components.t-header', [
+                        'link'      => $homePage,
+                        'modelSorts'=> $modelSorts,
+                        'fields'    => [
+                            'id',
+                            'name'=> [
+                                'col'   => 'User Name', // Field for table header
+                                'field' => 'name',  // Field from database for sort
+                            ],
+                            'email',
+                            'actions',
+                        ],
+                ])
             </tr>
             </thead>
             <tbody>

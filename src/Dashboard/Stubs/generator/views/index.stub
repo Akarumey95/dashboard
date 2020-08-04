@@ -15,8 +15,14 @@
         <table width="100%" class="table table-borderless">
             <thead>
             <tr>
-                <th>Id</th>
-                <th>Actions</th>
+                @include('dashboard.components.t-header', [
+                        'link'      => $homePage,
+                        'modelSorts'=> $modelSorts,
+                        'fields'    => [
+                            'id',
+                            'actions',
+                        ],
+                ])
             </tr>
             </thead>
             <tbody>

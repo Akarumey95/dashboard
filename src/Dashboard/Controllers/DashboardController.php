@@ -16,6 +16,7 @@ abstract class DashboardController extends Controller
     protected static $homePage;
     protected static $paginateBy;
     protected static $filters;
+    protected static $sorts;
 
 
     public function __construct()
@@ -28,6 +29,7 @@ abstract class DashboardController extends Controller
         static::$homePage   =   isset($config['homePage'])  ? $config['homePage']   : null;
         static::$paginateBy =   isset($config['paginateBy'])? $config['paginateBy'] : null;
         static::$filters    =   isset($config['filters'])   ? $config['filters']    : null;
+        static::$sorts      =   isset($config['sorts'])     ? $config['sorts']      : null;
     }
 
     public function index()
@@ -36,6 +38,13 @@ abstract class DashboardController extends Controller
             ->send(static::$model::query())
             ->through(static::$filters)
             ->thenReturn();
+
+        if(!is_null(\request()->sort)){
+            $sortValue = explode('|', \request()->sort);
+            if(array_search($sortValue[0], static::$sorts) !== false){
+                $items->orderBy($sortValue[0], $sortValue[1]);
+            }
+        }
 
         return view(static::$view . '.index', [
             'items'     => $items->paginate(static::$paginateBy),

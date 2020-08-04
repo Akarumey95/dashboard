@@ -5,12 +5,12 @@ return [
     'namespace' => 'Application\Dashboard\Controllers',
 
     'controllers' => [
-        'user'     =>  [
+        'user'              =>  [
             'view'          => 'dashboard.views.user',
             'homePage'      => '/users',
             'modelName'     => 'User',
             'model'         => \App\User::class,
-            'controller'     => 'User\UserController',
+            'controller'    => 'User\UserController',
             'paginateBy'    => 25,
             'router'        => [
                 'index',
@@ -21,6 +21,9 @@ return [
             ],
             'filters'       => [
 
+            ],
+            'sorts'         =>[
+                'id', 'name', 'email'
             ],
         ],
     ],
