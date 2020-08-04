@@ -38,6 +38,7 @@ class InstallDashboardCommand extends Command
         'components/form-errors.stub' => 'dashboard/components/form-errors.blade.php',
         'components/form-fields.stub' => 'dashboard/components/form-fields.blade.php',
         'components/sidebar.stub' => 'dashboard/components/sidebar.blade.php',
+        'components/t-header.stub' => 'dashboard/components/t-header.blade.php',
         'layouts/app.stub' => 'dashboard/layouts/app.blade.php',
     ];
 

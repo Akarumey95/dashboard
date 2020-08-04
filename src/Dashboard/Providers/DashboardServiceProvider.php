@@ -57,6 +57,14 @@ class DashboardServiceProvider extends ServiceProvider
                 });
 
                 View::composer([
+                    $controller['view'] . '.index',
+                ], function($view) use ($controller) {
+                    $view->with([
+                        'modelSorts'=> $controller['sorts'],
+                    ]);
+                });
+
+                View::composer([
                     $controller['view'] . '.form',
                 ], function($view) use ($controller) {
                     $view->with([

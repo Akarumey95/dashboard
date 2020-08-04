@@ -1,0 +1,44 @@
+@foreach($fields as $field)
+
+    <?php
+    if(is_array($field)){
+        $columnName = $field['col'];
+        $sortField = $field['field'];
+    }else{
+        $columnName = $field;
+        $sortField = $field;
+    }
+    ?>
+
+
+    @if(array_search($sortField, $modelSorts) !== false)
+        <th>
+            <div>
+                <?php
+                $link= request()->url() . '?';
+                if(request()->input('page')){
+                    $link = $link . 'page=' . request()->input('page');
+                }
+                ?>
+                @if(request()->input('sort') === $sortField . '|asc')
+                    <a class="sort__component__item"
+                       href="{{$link . '&sort=' . $sortField . '|desc'}}" title="">
+                        {{ucfirst($columnName)}} &#8593;
+                    </a>
+                @else
+                    <a class="sort__component__item"
+                       href="{{$link . '&sort=' . $sortField . '|asc'}}" title="">
+                        {{ucfirst($columnName)}} &#8595;
+                    </a>
+                @endif
+            </div>
+        </th>
+    @else
+        <th>
+            <div>
+                {{ucfirst($columnName)}}
+            </div>
+        </th>
+    @endif
+
+@endforeach
