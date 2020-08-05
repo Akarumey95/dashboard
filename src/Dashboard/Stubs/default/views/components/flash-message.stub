@@ -1,6 +1,6 @@
 @if (Session::has('flash_message'))
     <div class="container-fluid">
-        <div class="alert
+        <div class="alert alert-dismissible
                         @if(strtoupper(Session::get('flash_message_type')) == 'ERROR')
             alert-danger
 @else alert-success @endif

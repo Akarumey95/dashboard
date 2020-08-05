@@ -19,7 +19,9 @@
                         <li class="nav-header">{{ $menu['title'] }}</li>
                             @foreach($menu['submenu'] as $menuItem)
                             <a href="{{ url($menuItem['url']) }}" class="nav-link">
-                                <i class="nav-icon {{$menuItem['icon']}}"></i>
+                                @if(isset($menuItem['icon']))
+                                    <i class="nav-icon {{$menuItem['icon']}}"></i>
+                                @endif
                                 <p>
                                     {{ $menuItem['title'] }}
                                 </p>
@@ -29,7 +31,9 @@
                         @else
                         <li class="nav-item">
                             <a href="{{ url($menu['url']) }}" class="nav-link">
-                                <i class="nav-icon {{$menu['icon']}}"></i>
+                                @if(isset($menu['icon']))
+                                    <i class="nav-icon {{$menu['icon']}}"></i>
+                                @endif
                                 <p>
                                     {{ $menu['title'] }}
                                 </p>

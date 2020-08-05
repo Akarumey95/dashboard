@@ -1,0 +1,22 @@
+<?php
+
+
+namespace App\{{filter_dir}};
+
+use Akarumey95\Dashboard\Filters\AbstractFilters;
+use Illuminate\Database\Eloquent\Builder;
+
+
+class {{filter_name}} extends AbstractFilters
+{
+    protected function applyFilter(Builder $builders)
+    {
+        try {
+            if(!is_null(request($this->filterName()))) {
+                return $builders; //add your conditions
+            }
+        }catch (\Exception $e){}
+
+        return $builders;
+    }
+}

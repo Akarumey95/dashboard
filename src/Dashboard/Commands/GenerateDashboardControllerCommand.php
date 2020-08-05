@@ -116,6 +116,9 @@ class GenerateDashboardControllerCommand extends Command
             "filters" => [
 
             ],
+            'sorts' => [
+
+            ],
         ];
 
         $config['menu'][0]['submenu'][] = [

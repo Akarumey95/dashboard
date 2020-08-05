@@ -3,6 +3,7 @@
 namespace Akarumey95\Dashboard\Providers;
 
 use Akarumey95\Dashboard\Commands\GenerateDashboardControllerCommand;
+use Akarumey95\Dashboard\Commands\GenerateDashboardFilterCommand;
 use Akarumey95\Dashboard\Commands\GenerateDashboardViewsCommand;
 use Akarumey95\Dashboard\Commands\InstallDashboardCommand;
 use Akarumey95\Dashboard\Dashboard;
@@ -25,6 +26,7 @@ class DashboardServiceProvider extends ServiceProvider
             GenerateDashboardControllerCommand::class,
             GenerateDashboardViewsCommand::class,
             InstallDashboardCommand::class,
+            GenerateDashboardFilterCommand::class,
         ]);
 
         App::bind('dashboard',function() {
