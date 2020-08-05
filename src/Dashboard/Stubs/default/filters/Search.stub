@@ -1,0 +1,26 @@
+<?php
+
+
+namespace App\Filters\UserFilters;
+
+use Akarumey95\Dashboard\Filters\AbstractFilters;
+use Illuminate\Database\Eloquent\Builder;
+
+
+class Search extends AbstractFilters
+{
+    protected function applyFilter(Builder $builders)
+    {
+        try {
+            if(!is_null(request($this->filterName()))) {
+                return $builders
+                    ->where('name', "LIKE",
+                        "%".request($this->filterName())."%")
+                    ->orWhere('email', "LIKE",
+                        "%".request($this->filterName())."%");
+            }
+        }catch (\Exception $e){}
+
+        return $builders;
+    }
+}
