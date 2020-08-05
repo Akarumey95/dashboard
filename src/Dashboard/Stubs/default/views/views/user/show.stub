@@ -1,36 +1,64 @@
 @extends('dashboard.layouts.app')
 
 @section('content')
-    <div class="card-header">{{$modelName}}</div>
 
-    <div class="card-body">
-        @if (session('status'))
-            <div class="alert alert-success" role="alert">
-                {{ session('status') }}
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>{{$modelName}}</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="{{url('/')}}">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{url($homePage)}}">{{$modelName}}s</a></li>
+                        <li class="breadcrumb-item active">{{$modelName}} #{{$item->id}}</li>
+                    </ol>
+                </div>
             </div>
-        @endif
+        </div><!-- /.container-fluid -->
+    </section>
 
-        @include('dashboard.components.actions', [
-                'use'  => ['back', 'edit', 'delete'],
-                'link' => $homePage,
-                'item' => $item,
-                ])
-        <br>
-        <table width="100%" class="table table-borderless">
-            <tbody>
-            <tr>
-                <td>ID</td>
-                <td>{{$item->id}}</td>
-            </tr>
-            <tr>
-                <td>Name</td>
-                <td>{{$item->name}}</td>
-            </tr>
-            <tr>
-                <td>Email</td>
-                <td>{{$item->email}}</td>
-            </tr>
-            </tbody>
-        </table>
+
+    @if (session('status'))
+        <div class="alert alert-success" role="alert">
+            {{ session('status') }}
+        </div>
+    @endif
+
+
+    <div class="content">
+        <div class="container-fluid">
+            @include('dashboard.components.actions', [
+                    'use'  => ['back', 'edit', 'delete'],
+                    'link' => $homePage,
+                    'item' => $item,
+                    ])
+            <br>
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <tbody>
+                                <tr>
+                                    <td>ID</td>
+                                    <td>{{$item->id}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>{{$item->name}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Email</td>
+                                    <td>{{$item->email}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 @endsection

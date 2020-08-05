@@ -51,6 +51,8 @@ class InstallDashboardCommand extends Command
      */
     public function handle()
     {
+        $this->exportAssets();
+
         $this->ensureDirectoriesExist();
         $this->exportViews();
 
@@ -80,6 +82,36 @@ class InstallDashboardCommand extends Command
         if (! is_dir($directory = $this->getViewPath('dashboard/views/user'))) {
             mkdir($directory, 0755, true);
         }
+    }
+
+    /**
+     * Export the dashboard assets.
+     *
+     * @return void
+     */
+    protected function exportAssets()
+    {
+        if (! is_dir($directory = base_path('public/src'))) {
+            mkdir($directory, 0755, true);
+        }
+
+        function recurse_copy($src, $dst)
+        {
+            $dir = opendir($src);
+            @mkdir($dst);
+            while (false !== ($file = readdir($dir))) {
+                if (($file != '.') && ($file != '..')) {
+                    if (is_dir($src . '/' . $file)) {
+                        recurse_copy($src . '/' . $file, $dst . '/' . $file);
+                    } else {
+                        copy($src . '/' . $file, $dst . '/' . $file);
+                    }
+                }
+            }
+            closedir($dir);
+        }
+
+        recurse_copy(__DIR__ . '/../Stubs/default/src', $directory);
     }
 
     /**

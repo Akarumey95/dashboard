@@ -34,7 +34,8 @@ return [
             'submenu' => [
                 [
                     'title' => 'Users',
-                    'url' => '/users'
+                    'url'   => '/users',
+                    'icon'  => 'fas fa-user'
                 ],
             ]
         ],

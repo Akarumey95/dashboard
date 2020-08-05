@@ -1,55 +1,94 @@
 @extends('dashboard.layouts.app')
 
 @section('content')
-    <div class="card-header">{{$modelName}}s</div>
 
-    <div class="card-body">
-        @if (session('status'))
-            <div class="alert alert-success" role="alert">
-                {{ session('status') }}
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>{{$modelName}}s</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="{{url('/')}}">Home</a></li>
+                        <li class="breadcrumb-item active">{{$modelName}}s</li>
+                    </ol>
+                </div>
             </div>
-        @endif
+        </div><!-- /.container-fluid -->
+    </section>
 
-        @include('dashboard.components.actions', ['use'  => ['new'], 'link' => $homePage])
-        <br>
-        <table width="100%" class="table table-borderless">
-            <thead>
-            <tr>
-                @include('dashboard.components.t-header', [
-                        'link'      => $homePage,
-                        'modelSorts'=> $modelSorts,
-                        'fields'    => [
-                            'id',
-                            'name'=> [
-                                'col'   => 'User Name', // Field for table header
-                                'field' => 'name',  // Field from database for sort
-                            ],
-                            'email',
-                            'actions',
-                        ],
-                ])
-            </tr>
-            </thead>
-            <tbody>
-            @foreach($items as $item)
-                <tr>
-                    <td>{{$item->id}}</td>
-                    <td>{{$item->name}}</td>
-                    <td>{{$item->email}}</td>
-                    <td style="min-width: 125px;">
-                        @include('dashboard.components.actions', [
-                                    'use'  => ['show', 'edit', 'delete'],
-                                    'link' => $homePage,
-                                    'item' => $item,
-                                ])
-                    </td>
-                </tr>
-            @endforeach
-            </tbody>
-        </table>
+    @if (session('status'))
+        <div class="alert alert-success" role="alert">
+            {{ session('status') }}
+        </div>
+    @endif
 
-        <div class="d-flex justify-content-center">
-            {{$items->appends(request()->input())->links()}}
+        <div class="content">
+            <div class="container-fluid">
+                @include('dashboard.components.actions', ['use'  => ['new'], 'link' => $homePage])
+                <br>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            {{--<div class="card-header">
+                                <div class="card-tools">
+                                    <div class="input-group input-group-sm" style="width: 150px;">
+                                        <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+
+                                        <div class="input-group-append">
+                                            <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>--}}
+                            <!-- /.card-header -->
+                            <div class="card-body table-responsive p-0">
+                                <table class="table table-hover text-nowrap">
+                                    <thead>
+                                    <tr>
+                                        @include('dashboard.components.t-header', [
+                                                'link'      => $homePage,
+                                                'modelSorts'=> $modelSorts,
+                                                'fields'    => [
+                                                    'id',
+                                                    'name'=> [
+                                                        'col'   => 'User Name', // Field for table header
+                                                        'field' => 'name',  // Field from database for sort
+                                                    ],
+                                                    'email',
+                                                    'actions',
+                                                ],
+                                        ])
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($items as $item)
+                                            <tr>
+                                                <td>{{$item->id}}</td>
+                                                <td>{{$item->name}}</td>
+                                                <td>{{$item->email}}</td>
+                                                <td style="min-width: 125px;">
+                                                    @include('dashboard.components.actions', [
+                                                                'use'  => ['show', 'edit', 'delete'],
+                                                                'link' => $homePage,
+                                                                'item' => $item,
+                                                            ])
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.card-body -->
+
+                            <div class="card-footer clearfix">
+                                {{$items->appends(request()->input())->links()}}
+                            </div>
+                        </div>
+                        <!-- /.card -->
+                    </div>
+                </div></div>
         </div>
     </div>
 @endsection
