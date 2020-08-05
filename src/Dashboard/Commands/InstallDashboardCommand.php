@@ -13,7 +13,6 @@ class InstallDashboardCommand extends Command
      * @var string
      */
     protected $signature = 'dashboard:install
-                    {--views : Only scaffold the dashboard views}
                     {--force : Overwrite existing views by default}';
 
     /**
@@ -55,12 +54,10 @@ class InstallDashboardCommand extends Command
 
         $this->ensureDirectoriesExist();
         $this->exportViews();
-
-        if (! $this->option('views')) {
-            $this->exportConfig();
-            $this->exportBackend();
-        }
-
+        $this->exportFilters();
+        $this->exportConfig();
+        $this->exportBackend();
+        $this->exportRequests();
         $this->info('Dashboard scaffolding generated successfully.');
     }
 
@@ -136,20 +133,46 @@ class InstallDashboardCommand extends Command
     }
 
     /**
-     * Export the dashboard config.
+     * Get full view path relative to the application's configured view path.
+     *
+     * @param  string  $path
+     * @return string
+     */
+    protected function getViewPath($path)
+    {
+        return implode(DIRECTORY_SEPARATOR, [
+            config('view.paths')[0] ?? resource_path('views'), $path,
+        ]);
+    }
+
+    /**
+     * Export the dashboard Filters.
+     *
+     * @return void
+     */
+    protected function exportFilters()
+    {
+        $path = 'Filters/UserFilters';
+        $this->export(
+            app_path($path. '/Search.php'),
+            file_get_contents(__DIR__ . '/../Stubs/default/filters/Search.stub'),
+            'dashboard.php',
+            $path
+        );
+    }
+
+    /**
+     * Export the dashboard Config.
      *
      * @return void
      */
     protected function exportConfig()
     {
-        $config = config_path('/dashboard.php');
-        if (file_exists($config) && ! $this->option('force')) {
-            if ($this->confirm("The [dashboard.php] file already exists. Do you want to replace it?")) {
-                file_put_contents($config, $this->getConfigStub());
-            }
-        } else {
-            file_put_contents($config, $this->getConfigStub());
-        }
+        $this->export(
+            config_path('/dashboard.php'),
+            file_get_contents(__DIR__ . '/../Stubs/default/config/dashboard.stub'),
+            'dashboard.php'
+        );
     }
 
     /**
@@ -160,18 +183,13 @@ class InstallDashboardCommand extends Command
     protected function exportBackend()
     {
         $path = 'Http/Controllers/Application/Dashboard/Controllers/User';
-        $controller = app_path($path. '/UserController.php');
 
-        if (file_exists($controller) && ! $this->option('force')) {
-            if ($this->confirm("The [UserController.php] file already exists. Do you want to replace it?")) {
-                file_put_contents($controller, $this->compileControllerStub());
-            }
-        } else {
-            if(!file_exists($controller)){
-                mkdir(app_path($path), 0755, true);
-            }
-            file_put_contents($controller, $this->compileControllerStub());
-        }
+        $this->export(
+            app_path($path. '/UserController.php'),
+            $this->compileControllerStub(),
+            'UserController.php',
+            $path
+        );
 
         if(! $this->option('force')){
             file_put_contents(
@@ -183,13 +201,27 @@ class InstallDashboardCommand extends Command
     }
 
     /**
-     * Compiles the "UserController" stub.
+     * Export the dashboard backend.
      *
-     * @return string
+     * @return void
      */
-    protected function getConfigStub()
+    protected function exportRequests()
     {
-        return file_get_contents(__DIR__ . '/../Stubs/default/config/dashboard.stub');
+        $path = 'Http/Requests';
+
+        $requests = [
+            'CreateUserRequest.stub'  =>'CreateUserRequest.php',
+            'UpdateUserRequest.stub'  =>'UpdateUserRequest.php'
+        ];
+
+        foreach ($requests as $k => $request) {
+            $this->export(
+                app_path($path. '/' . $request),
+                file_get_contents(__DIR__ . '/../Stubs/default/requests/' . $k),
+                $request,
+                $path
+            );
+        }
     }
 
     /**
@@ -206,16 +238,19 @@ class InstallDashboardCommand extends Command
         );
     }
 
-    /**
-     * Get full view path relative to the application's configured view path.
-     *
-     * @param  string  $path
-     * @return string
-     */
-    protected function getViewPath($path)
+    protected function export(string $file, string $content, string $name, string $path=null)
     {
-        return implode(DIRECTORY_SEPARATOR, [
-            config('view.paths')[0] ?? resource_path('views'), $path,
-        ]);
+        if (file_exists($file) && ! $this->option('force')) {
+            if ($this->confirm("The [".$name."] file already exists. Do you want to replace it?")) {
+                file_put_contents($file, $content);
+            }
+        } else {
+            if(!file_exists($file) && !is_null($path)){
+                try {
+                    mkdir(app_path($path), 0755, true);
+                }catch (\Exception $e){}
+            }
+            file_put_contents($file, $content);
+        }
     }
 }

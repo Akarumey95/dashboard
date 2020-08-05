@@ -20,7 +20,7 @@ return [
                 'destroy'
             ],
             'filters'       => [
-
+                \App\Filters\UserFilters\Search::class,
             ],
             'sorts'         =>[
                 'id', 'name', 'email'
