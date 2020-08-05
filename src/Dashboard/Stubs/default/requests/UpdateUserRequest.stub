@@ -20,14 +20,14 @@ class UpdateUserRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
+     * @param User $user
      * @return array
      */
     public function rules(User $user)
     {
         return [
-            'name'      => 'required',
-            'email'     => 'required|unique:email,email,' . $user->id,
-            'password'  => 'confirmation|min:8'
+            'email'     => 'email|unique:users,email,'.$user->id,
+            'password'  => 'confirmed',
         ];
     }
 }
